@@ -7,7 +7,11 @@
 - Vertiefende Einarbeitung in Type Classes
 
 
+## Haskell Playgrounds
+- [Measuring Beispiel](https://play.haskell.org/saved/Ju6qjt1f)
+
+
 ## Quellen
-https://sulzmann.github.io/ProgrammingParadigms/pp-haskell.html
-https://serokell.io/blog/haskell-typeclasses
-https://dl.acm.org/doi/pdf/10.1145/227699.227700
+- https://sulzmann.github.io/ProgrammingParadigms/pp-haskell.html
+- https://serokell.io/blog/haskell-typeclasses
+- https://dl.acm.org/doi/pdf/10.1145/227699.227700
