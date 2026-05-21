@@ -1,18 +1,23 @@
-# Haskell Type Classes 
+# Haskell Type Clases
 
-Mit Type Classes kann man Funktionen leichter überladen, in dem man eine Type Class Constraint an die Methodendefinition anhängt. Damit ein Typ zu einer Type Class gehört, muss er die Methoden der Type Class implementieren, wobei sich die Methoden je nach Typ unterscheiden können. Es gibt so zum Beispiel die Klasse *Num* mit den folgenden Methoden: 
+Mit Type Classes kann man Funktionen leichter überladen, in dem man eine Type Class Constraint an die Methodendefinition anhängt. Damit ein Typ zu einer Type Class gehört, muss er die Methoden der Type Class implementieren, wobei sich die Methoden je nach Typ unterscheiden können. 
+
+## Aufbau
+Eine Type Class beinhaltet die Signaturen der Methoden, die eine Instanz implementieren muss, um zur Class zu gehören. Um eine Type Class zu definieren, wird das Keyword *class* genutzt. Neben einem Namen und einem Typen müssen auch die Methoden-Signaturen angegeben werden. Das folgende Beispiel zeigt die Type Class *Shape* mit dem Typen a:
 ```haskell
-class Num a where
-	(+) :: a -> a -> a 
-	(-) :: a -> a -> a 
-	(*) :: a -> a -> a 
-	negate :: a -> a 
-	abs :: a -> a 
-	signum :: a -> a 
-	fromInteger :: Integer -> a
+class Shape a where
+	area :: a -> Int
 ```
-Eine Instanz einer Type Class ist dabei die Implementierung der Methoden für einen Typen. Diese können entweder selbstgeschrieben sein oder abgeleitet von Haskell. 
-
+## Instanzen / Implementierung
+Die Instanz einer Type Class entspricht der Implementierung der Methoden für einen bestimmten Typen. Hierfür wird das Keyword *instance* genutzt. Alle Methoden einer Type Class müssen implementiert werden. Die Implementierung kann je nach Typ unterschiedlich aussehen. Ein Beispiel ist die Instanz der Type Class *Shape* für den Typ *Square*, wie folgend gezeigt:
+```haskell
+data Square = Square Int
+instance Shape Square where
+	area (Square x) = x * x
+```
+Zunächst wird der Datentyp *Square* definiert: Der Konstruktor nimmt eine Int als Argument, die der Seitenlänge entspricht. Es wird anschließend eine Instanz für *Shape* mit dem Typ *Square* definiert mit der Methode *area* von *Shape*. 
+## Verwendung
+Type Classes werden vor allem für das Überladen von Funktionen genutzt. Zudem können Type Classes auch als Superklassen genutzt werden (siehe Type Classes als Super Class). 
 ## Beispiel
 ```haskell
 class Measuring a where
@@ -80,4 +85,4 @@ superClassExample = getInMg s i
 Dabei hat *ExtendedMeasuring* nicht nur die *getInMg* Funktion sondern auch die Methode *getInMl* von Measuring.
 
 
-Vollständiges "Measuring"-Beispiel: [Playground](https://play.haskell.org/saved/Ju6qjt1f) oder im Verzeichnis Type Classes Examples in [MeasuringExample.hs]('Type%20Classes%20Examples/MeasuringExample.hs')
+Vollständiges "Measuring"-Beispiel: [Playground](https://play.haskell.org/saved/Ju6qjt1f) 
