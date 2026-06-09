@@ -87,7 +87,7 @@ instance Validator Binary where
     | otherwise = False
 ```
 Die Type Class "Validator" hat die Klasse "NumeralSystem" als Super Class. Dies wird durch den Constraint "NumeralSystem a =>" bei der Klassendefinition angegeben. Die Methode der Type Class überprüft, ob ein String den Regeln des Zahlensystems entspricht. Für Binary wird dementsprechend geprüft, ob der String nur aus 0 und 1 besteht. Dafür wird der String als Liste interpretiert. Dabei beschreibt x den Head und xs den Tail der Liste. Wenn x entweder 0 oder 1 entspricht, wird die Methode rekursiv mit dem Tail aufgerufen, bis die Liste entweder leer ist (=> String ist valide) oder x nicht 0 oder 1 entspricht (=> String ist nicht valide).  
-Das vollständige Type Classes Beispiel kann im [Haskell Playground](https://play.haskell.org/saved/BRMvwVKp) betrachtet und ausgeführt werden.
+Das vollständige Type Classes Beispiel kann im [Haskell Playground](https://play.haskell.org/saved/U0ivPCez) betrachtet und ausgeführt werden.
 
 ## Wie unterscheiden sich Type Classes (Haskell) von Interfaces (Java)?
 ➝ TODO
