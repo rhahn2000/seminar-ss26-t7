@@ -19,7 +19,7 @@
 ## Haskell Playgrounds
 - [Measuring Beispiel](https://play.haskell.org/saved/Ju6qjt1f)
 - [Stores Beispiel](https://play.haskell.org/saved/L532tscZ)
-- [NumberSystem Beispiel](https://play.haskell.org/saved/BRMvwVKp)
+- [NumeralSystem Beispiel](https://play.haskell.org/saved/U0ivPCez)
 
 
 ## Quellen
