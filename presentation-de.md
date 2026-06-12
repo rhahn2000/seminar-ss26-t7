@@ -65,16 +65,16 @@ class NumeralSystem a where
 Die Klasse "NumeralSystem" beschreibt Typen, die ein Zahlensystem repräsentieren. Funktionen, die implementiert werden müssen, um zur Type Class zu gehören, ist eine Methode zum Konvertieren einer Dezimalzahl in das Zahlensystem sowie eine Methode, um Informationen zum Zahlensystem anzeigen zu lassen. 
 Um einen Implementierung einer Type Class zu erstellen, muss man eine Instanz von ihr für einen Datentypen anlegen. Dies erfolgt über das Keyword "instance", wie folgend am Beispiel "Binary" gezeigt wird.
 ```haskell
-data Binary = Binary { name :: String, details :: String }
+data Binary = Binary { details :: String }
 instance NumeralSystem Binary where
   convertNumber system x
     | x < 2 = show x
     | otherwise = convertNumber system (x `div` 2) ++ show (x `mod` 2)
   displaySystem system = do 
-    putStrLn $ "System Name: " ++ name system
+    putStrLn "System Name: Binary"
     putStrLn $ "Details: " ++ details system
 ```
-Im Beispiel erstellen wir zunächst den Datentypen "Binary" für das binäre Zahlensystem. Als Eigenschaften hat es einmal einen Namen und einen Details-String.  Als nächstes wird die Instanz der Type Class für "Binary" erstellt, bei der für jede Methode der Type Class eine Implementierung angegeben wird. In der Methode "convertNumbers" wird zudem das Feature Guards genutzt, mit dem der Fall abgefangen wird, in dem die Nummer 1 oder 0 ist.  Guards funktionieren im Prinzip wie ein Switch Case. 
+Im Beispiel erstellen wir zunächst den Datentypen "Binary" für das binäre Zahlensystem. Als Eigenschaften besitzt er einen Details-String.  Als nächstes wird die Instanz der Type Class für "Binary" erstellt, bei der für jede Methode der Type Class eine Implementierung angegeben wird. In der Methode "convertNumbers" wird zudem das Feature Guards genutzt, mit dem der Fall abgefangen wird, in dem die Nummer 1 oder 0 ist.  Guards funktionieren im Prinzip wie ein Switch Case. 
 Type Classes werden hauptsächlich für die Überladung von Methoden genutzt. Eine Type Class kann aber zudem auch die Super Class einer anderen Type Class sein. Jede Instanz der Type Class ist dann auch eine Instanz der Super Class. Um eine Super Class zu definieren, fügt man der Type Class einen Constraint hinzu:
 ```haskell
 class NumeralSystem a => Validator a where
@@ -87,7 +87,7 @@ instance Validator Binary where
     | otherwise = False
 ```
 Die Type Class "Validator" hat die Klasse "NumeralSystem" als Super Class. Dies wird durch den Constraint "NumeralSystem a =>" bei der Klassendefinition angegeben. Die Methode der Type Class überprüft, ob ein String den Regeln des Zahlensystems entspricht. Für Binary wird dementsprechend geprüft, ob der String nur aus 0 und 1 besteht. Dafür wird der String als Liste interpretiert. Dabei beschreibt x den Head und xs den Tail der Liste. Wenn x entweder 0 oder 1 entspricht, wird die Methode rekursiv mit dem Tail aufgerufen, bis die Liste entweder leer ist (=> String ist valide) oder x nicht 0 oder 1 entspricht (=> String ist nicht valide).  
-Das vollständige Type Classes Beispiel kann im [Haskell Playground](https://play.haskell.org/saved/U0ivPCez) betrachtet und ausgeführt werden.
+Das vollständige Type Classes Beispiel kann im [Haskell Playground](https://play.haskell.org/saved/4OQ1vrIy) betrachtet und ausgeführt werden.
 
 ## Wie unterscheiden sich Type Classes (Haskell) von Interfaces (Java)?
 ➝ TODO

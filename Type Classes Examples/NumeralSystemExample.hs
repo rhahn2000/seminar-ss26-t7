@@ -1,6 +1,6 @@
 main :: IO ()
 main = do
-  let sys = Binary { name = "Binary", details = "Base 2 number system" }
+  let sys = Binary { details = "Base 2 number system" }
   putStrLn (convertNumber sys 42)
   print (checkIfValid sys "101010")
   print (checkIfValid sys "123")
@@ -10,13 +10,13 @@ class NumeralSystem a where
   convertNumber :: a -> Int -> String
   displaySystem :: a -> IO()
   
-data Binary = Binary { name :: String, details :: String }
+data Binary = Binary { details :: String }
 instance NumeralSystem Binary where
   convertNumber system x
     | x < 2 = show x
     | otherwise = convertNumber system (x `div` 2) ++ show (x `mod` 2)
   displaySystem system = do 
-    putStrLn $ "System Name: " ++ name system
+    putStrLn "System Name: Binary"
     putStrLn $ "Details: " ++ details system
     
 class NumeralSystem a => Validator a where
