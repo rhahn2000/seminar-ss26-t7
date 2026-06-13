@@ -194,6 +194,16 @@ Das Interface "Numbers" hat eine Methode "subtract", welche ein Numbers-Objekt a
 
 Eine Gemeinsamkeit beider Features ist die Nutzung von Superklassen. Type Classes und Interfaces können durch eine andere Type Class oder Interface erweitert werden. Auch hierbei müssen dann alle Methoden implementiert werden. Dabei gibt es jedoch eine weitere Besonderheit in Java, wenn es um das nachträgliche Ergänzen eines Interfaces geht. In Java muss bei der Klassendefinition angegeben werden, ob und welches Interface implementiert wird und alle zu implementierenden Methoden müssen in der Klasse implementiert werden. Beim nachträglichen Hinzufügen eines weiteren Interfaces muss die ursprüngliche Klasse dabei bearbeitet und angepasst werden. Die ursprüngliche Version der Klasse wird dabei ersetzt. Bei Type Classes in Haskell ist es so, dass eine neue Instance zum Typ ergänzt werden kann, ohne die ursprüngliche Instance oder den Typen zu verändern.
 
+## Erkenntnisse (Zusammenfassung)
+- Haskell ist eine pure funktionale Programmiersprache ohne Objektorientierung.
+- Type Classes sind Gruppierungen von Typen mit gleichen Methoden.
+- Type Classes haben Ähnlichkeiten zu Interfaces von Java.
+- In Java werden Methoden und Daten in der gleichen Struktur definiert (Klasse), in Haskell in zwei unterschiedlichen (Data und Instance).
+- Die Instanz einer Klasse in Java ist ein Objekt, eine Instanz einer Type Class in Haskell ist ein Typ.
+- Die Aufgabe eines Interfaces in Java ist die Kommunikation mit anderen Klassen. Eine Type Class gruppiert Typen.
+- In Haskell wird die Entscheidung, welche Implementierung genutzt wird, während der Kompilierung getroffen (➝ "static dispatch"), während in Java die Entscheidung während der Laufzeit getroffen wird (➝"dynamic dispatch").  
+- Als Folge des "dynamic dispatch" in Kombination mit Subtyping kann unter Umständen keine Typsicherheit durch den Compiler garantiert werden.
+- Das nachträgliche Hinzufügen eines Interfaces zu einer Klasse in Java ersetzt die ursprüngliche Version, während in Haskell die ursprüngliche Version ergänzt wird.
 
 ## Quellen
 [^goetheuniskript]: Schmidt-Schauß, M. (2023): _Einführung in die Funktionale Programmierung_, Vorlesungsskript. Goethe-Universität Frankfurt. [https://www2.ki.informatik.uni-frankfurt.de/lehre/WS2025/EFP/skript/skript.pdf](https://www2.ki.informatik.uni-frankfurt.de/lehre/WS2025/EFP/skript/skript.pdf) [abgerufen am: 05.06.2026].
