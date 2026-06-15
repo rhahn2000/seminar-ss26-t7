@@ -12,7 +12,7 @@ Funktionale Sprachen basieren in erster Linie auf der Verkettung von mathematisc
 
 In den 1980er Jahren wurde beschlossen, dass man eine neue funktionale Sprache entwickeln wollte, welche als standardisierte Grundlage für die Forschung mit funktionalen Sprachen dienen sollte. Als Grundlage wurde die Sprache "Miranda" genutzt und in den 1990ern erste Versionen von Haskell entwickelt. Damals wurde auch das später betrachtete Feature der Type Classes bereits hinzugefügt. In 1998 wurde Haskell 98 definiert, welches für Standard Haskell Compiler genutzt wurde. In 2010 wurde eine überarbeitete Version von Haskell veröffentlicht, welche Haskell 98 ersetzte. [^practicalhaskell]
 
-Haskell ist eine pure funktionale Programmiersprache und ist stark sowie statisch typisiert. D.h. neben den Eigenschaften einer funktionalen Programmiersprache wird zwischen den Datentypen streng unterschieden und die Typen zum Zeitpunkt der Übersetzung bereits feststehen. Der Compiler checkt die Typen bevor diese ausgeführt werden. Sollte kein Typ explizit angegeben sein, wird der Typ automatisch aus dem Code abgeleitet. Zudem wird Haskell-Code auch lazy evaluiert, d.h. ein Ausdruck wird erst dann ausgewertet, wenn er gebraucht wird, und sein Wert wird gespeichert. Haskell kann zudem auch impure Funktionen, also Funktionen mit Nebeneffekten. Dabei muss der Nebeneffekt beim Funktionstypen mit angegeben werden. [^practicalhaskell][^programmierparadigmen]
+Haskell ist eine pure funktionale Programmiersprache und ist stark sowie statisch typisiert. D.h. neben den Eigenschaften einer funktionalen Programmiersprache wird zwischen den Datentypen streng unterschieden und die Typen stehen zum Zeitpunkt der Übersetzung bereits fest. Der Compiler überprüft die Typen bevor diese ausgeführt werden. Sollte kein Typ explizit angegeben sein, wird der Typ automatisch aus dem Code abgeleitet. Zudem wird Haskell-Code auch "lazy" evaluiert, d.h. ein Ausdruck wird erst dann ausgewertet, wenn er gebraucht wird, und sein Wert wird gespeichert. Haskell kann zudem auch impure Funktionen, also Funktionen mit Nebeneffekten, unterstützen. Dabei muss der Nebeneffekt beim Funktionstypen mit angegeben werden. [^practicalhaskell][^programmierparadigmen]
 
 Ein einfaches Beispiel für Haskell-Code ist das klassische "Hello World"-Programm.
 
@@ -22,7 +22,7 @@ main = putStrLn "Hello World!"
 ```
 
 Die erste Zeile ist dabei der Funktionstyp. Die Funktion "main" liefert dementsprechend eine Konsolenausgabe. In der zweiten Zeile erfolgt die Ausgabe via "putStrLn".
-Zum Vergleich, das selbe "Hello World"-Programm würde in Java wie folgt aussehen.
+Zum Vergleich, das gleiche "Hello World"-Programm würde in Java wie folgt aussehen:
 
 ```Java
 public class HelloWorld {
@@ -73,7 +73,7 @@ class NumeralSystem a where
   displaySystem :: a -> IO()
 ```
 
-Die Klasse "NumeralSystem" beschreibt Typen, welche ein Zahlensystem repräsentieren. Funktionen, die implementiert werden müssen, um zur Type Class zu gehören, sind eine Methode zum Konvertieren einer Dezimalzahl in das Zahlensystem sowie eine Methode, um Informationen zum Zahlensystem anzeigen zu lassen. 
+Die Klasse "NumeralSystem" beschreibt Typen, welche ein Zahlensystem repräsentieren. Funktionen, die implementiert werden müssen, um zur Type Class zu gehören, sind eine Methode zum Konvertieren einer Int in das Zahlensystem sowie eine Methode, um Informationen zum Zahlensystem anzeigen zu lassen. 
 Um eine Implementierung einer Type Class zu erstellen, muss man eine Instanz für einen Datentypen anlegen. Dies erfolgt über das Keyword "instance", wie am Beispiel "Binary" gezeigt wird.
 
 ```haskell
@@ -87,7 +87,7 @@ instance NumeralSystem Binary where
     putStrLn $ "Details: " ++ details system
 ```
 
-Zunächst wird der Datentyp "Binary" für das binäre Zahlensystem definiert. Dieser besitzt eine Eigenschaft "details".  Anschließend wird die Instanz der Type Class für "Binary" erstellt, bei der für jede Methode der Type Class eine Implementierung angegeben wird. In der Methode "convertNumbers" werden zudem "Guards" genutzt, mit dem der Fall abgefangen wird, bei dem die aktuelle Ziffer den Wert 1 oder 0 hat.  Guards funktionieren im Prinzip wie ein Switch-Case von anderen Programmiersprachen. 
+Zunächst wird der Datentyp "Binary" für das binäre Zahlensystem definiert. Dieser besitzt eine Eigenschaft "details". Anschließend wird die Instanz der Type Class für "Binary" erstellt, bei der für jede Methode der Type Class eine Implementierung angegeben wird. In der Methode "convertNumbers" werden zudem "Guards" genutzt, mit dem der Fall abgefangen wird, bei dem die aktuelle Ziffer den Wert 1 oder 0 hat.  Guards funktionieren im Prinzip wie ein Switch-Case von anderen Programmiersprachen. 
 Type Classes werden hauptsächlich für die Überladung von Methoden genutzt. Eine Type Class kann aber zudem auch die Superklasse einer anderen Type Class sein. Jede Instanz der Type Class ist dann auch eine Instanz der Superklasse. Um eine solche Klasse zu definieren, fügt man der Type Class einen Constraint hinzu:
 
 ```haskell
@@ -135,10 +135,10 @@ public class Binary implements NumeralSystem {
 	}
 }
 ```
-Neben den Unterschieden in den Methodensignaturen und den allgemeinen Unterschieden zwischen Java und Haskell (z.B.: Semikolon am Ende einer Zeile) fällt auf, dass in Haskell explizit der Typ "a" übergeben werden muss. Durch die Objektorientierung kann Java darauf verzichten und kann stattdessen auf die Eigenschaften mit "this" direkt in der Methode zugreifen. Dies lässt sich zum Beispiel beim Setzen von "details" im Konstruktor von Binary beobachten. 
-Zudem werden in Java Methoden und Daten innerhalb einer Struktur (Klasse) definiert, während die Definition in Haskell in zwei Strukturen getrennt wird ("data" und "instance"). Im Beispiel von "NumeralSystem" in Haskell existiert die Typdefinition von "Binary" und dementsprechend die dazugehörige Instance mit der Implementierung der Methoden. In Java hingegen wird beides durch die Klasse "Binary" definiert.
+Neben den Unterschieden in den Methodensignaturen und den allgemeinen Unterschieden zwischen Java und Haskell (z.B.: Semikolon am Ende einer Zeile) fällt auf, dass in Haskell explizit der Typ "a" übergeben werden muss. Durch die Objektorientierung kann in Java darauf verzichtet werden und stattdessen auf die Eigenschaften mit "this" direkt in der Methode zugegriffen werden. Dies lässt sich zum Beispiel beim Setzen von "details" im Konstruktor von Binary beobachten. 
+Zudem werden in Java Methoden und Daten innerhalb einer Struktur (Klasse) definiert, während die Definition in Haskell in zwei Strukturen getrennt wird ("data" und "instance"). Im Haskell-Beispiel von "NumeralSystem" wird so der Typ "Binary" und die dazugehörige Instanz mit der Implementierung der Methoden definiert. Im Java-Beispiel wird beides durch die Klasse "Binary" definiert.
 
-Durch das Betrachten der Objektorientierung in Java fällt ebenfalls auf, dass die Instanz einer Klasse einem Objekt entspricht. Dementsprechend beschreibt ein Interface den Aufbau und das Verhalten eines Objektes. In Haskell gibt es keine Objektorientierung und dementsprechend auch keine Objekte. Stattdessen beschreibt eine Instance das Verhalten eines Typen und eine Type Class eine Gruppe von Typen mit gleichen Methoden. Dies fällt vor allem dann auf, wenn man sich die Aufrufe der beiden Klassen anschaut:
+Durch das Betrachten des Beispiels in Java fällt ebenfalls auf, dass die Instanz einer Klasse einem Objekt entspricht (Objektorientierung). Dementsprechend beschreibt ein Interface den Aufbau und das Verhalten eines Objektes. In Haskell gibt es keine Objektorientierung und dementsprechend auch keine Objekte. Stattdessen beschreibt eine Instanz das Verhalten eines Typen und eine Type Class eine Gruppe von Typen mit gleichen Methoden. Dies fällt vor allem dann auf, wenn man sich die Aufrufe der beiden Klassen anschaut:
 ```haskell
 -- Haskell
 let sys = Binary { details = "Base 2 number system" }
@@ -151,7 +151,7 @@ Binary b1 = new Binary ("Base 2 number system");
 System.out.println(b1.convertNumber(42));
 ```
 In Java erstellen wir ein neues Objekt mit Methoden, während wir in Haskell nur einen Datencontainer anlegen. Der Methodenaufruf in Haskell erfolgt nicht wie bei Java über die Variable (bzw. das Objekt), sondern mit der Variable. Anhand ihres Typs wird dann entschieden, welche Methode aufgerufen wird. 
-Zudem werden Interfaces in Java auch oft als Schnittstelle betrachtet. Sie regeln die Kommunikation ihrer Klassen zu anderen Interfaces und deren Klassen, wie eine Kopfhörerbüchse. Die Aufgabe von Type Classes ist nicht die Kommunikation, sondern die Gruppierung der Typen.
+Zudem werden Interfaces in Java auch oft als Schnittstelle betrachtet. Sie regeln die Kommunikation ihrer Klassen zu anderen Interfaces und deren Klassen. Die Aufgabe von Type Classes ist nicht die Kommunikation, sondern die Gruppierung der Typen.
 
 Ein weiterer Unterschied ist der Zeitpunkt, an dem entschieden wird, welche Methode oder Instanz ausgeführt wird. In Haskell wird die Entscheidung, welche Implementierung der Type Class ausgeführt wird, bei der Kompilierung getroffen (➝"static dispatch"). Die Entscheidung wird dabei anhand des Typen getroffen, da der Compiler schon vor der Ausführung den Typen kennt und so die entsprechende Methode einsetzen kann. In Java hingegen erfolgt die Entscheidung erst zur Laufzeit anhand des Objektes, über das die Methode aufgerufen wird (➝"dynamic dispatch"). Eine Folge davon ist, dass zum Beispiel bei der Verwendung des Interface-Typen als Parameter- und Rückgabe-Typ keine Typsicherheit garantiert ist. Ein solcher Fall wird im folgenden Beispiel gezeigt:
 ```Java
@@ -190,7 +190,7 @@ public class ChaosNumber implements Numbers {
 	}
 }
 ```
-Das Interface "Numbers" hat eine Methode "subtract", welche ein Numbers-Objekt als Parameter entgegen nimmt und ein Objekt zurückgibt. Theoretisch kann hier jedes beliebige Objekt eingesetzt werden, welches das Interface implementiert. Der Compiler weiß allerdings nicht, welche Implementierung genutzt wird und ob sie vom gleichen Typ ist. So kann der Fall eintreten, dass eine solche Methode Objekte einer anderen Klasse übergeben bekommt. In der Theorie ist das möglich, da beide Klassen "Numbers" implementieren und als Übergabewert ein Objekt des Typs "Numbers" empfangen wird. Durch die Manipulation, in unserem Beispiel das Subtrahieren voneinander, müssen beide Objekte allerdings von der selben Klasse stammen. Dies kann jedoch nicht garantiert werden. Um dies zu verhindern und Typsicherheit zu garantieren, muss ein solches Objekt, welches den Interface-Typ hat, zuerst entsprechend gecastet werden, wie man auch im Beispiel betrachten kann. In Haskell kommt es aufgrund des "static dispatch" nicht zu solchen Problemen. Der Compiler erkennt anhand des Typen die richtige Methode und garantiert dabei, dass die Parameter den gleichen Typen haben.
+Das Interface "Numbers" hat eine Methode "subtract", welche ein Numbers-Objekt als Parameter entgegen nimmt und ein Objekt zurückgibt. Theoretisch kann hier jedes beliebige Objekt eingesetzt werden, welches das Interface implementiert. Der Compiler weiß allerdings nicht, welche Implementierung genutzt wird und ob sie vom gleichen Typ ist. So kann der Fall eintreten, dass Objekte einer anderen Klasse an eine solche Methode übergeben werden. In der Theorie ist das möglich, da beide Klassen "Numbers" implementieren und als Übergabewert ein Objekt des Typs "Numbers" empfangen wird. Durch die Manipulation, in unserem Beispiel das Subtrahieren voneinander, müssen beide Objekte allerdings von der selben Klasse stammen. Dies kann jedoch nicht garantiert werden. Um dies zu verhindern und Typsicherheit zu garantieren, muss ein solches Objekt, welches den Interface-Typ hat, zuerst entsprechend gecastet werden, wie man ebenfalls im Beispiel sehen kann. In Haskell kommt es aufgrund des "static dispatch" nicht zu solchen Problemen. Der Compiler erkennt anhand des Typen die richtige Methode und garantiert dabei, dass die Parameter den gleichen Typen haben.
 
 Eine Gemeinsamkeit beider Features ist die Nutzung von Superklassen. Type Classes und Interfaces können durch eine andere Type Class oder Interface erweitert werden. Auch hierbei müssen dann alle Methoden implementiert werden. Dabei gibt es jedoch eine weitere Besonderheit in Java, wenn es um das nachträgliche Ergänzen eines Interfaces geht. In Java muss bei der Klassendefinition angegeben werden, ob und welches Interface implementiert wird und alle zu implementierenden Methoden müssen in der Klasse implementiert werden. Beim nachträglichen Hinzufügen eines weiteren Interfaces muss die ursprüngliche Klasse dabei bearbeitet und angepasst werden. Die ursprüngliche Version der Klasse wird dabei ersetzt. Bei Type Classes in Haskell ist es so, dass eine neue Instance zum Typ ergänzt werden kann, ohne die ursprüngliche Instance oder den Typen zu verändern.
 
