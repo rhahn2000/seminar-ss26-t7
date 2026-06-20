@@ -1,7 +1,5 @@
 # Wie unterscheiden sich Type Classes aus Haskell von Interfaces aus Java?
 
-\-- Stand: 13.06. (ungekürzt) --
-
 ## Intro
 
 In der heutigen Programmierwelt spielen vor allem objektorientierte Programmiersprachen eine Rolle. Betrachtet man so zum Beispiel die jährlich durchgeführte "Developer Survey" von Stack Overflow und deren Ergebnisse aus dem Jahr 2025, zählt neben den üblichen Websprachen auch Java zu einer der beliebtesten Sprachen in der Programmierung. Funktionale Sprachen, wie Haskell, erscheinen in den Umfragen eher am unteren Ende oder tauchen gar nicht in den Graphen auf. Dabei können funktionale Sprachen in manchen Fällen nützlicher sein als objektorientierte Sprachen. [^stackoverflow]
@@ -73,7 +71,7 @@ class NumeralSystem a where
   displaySystem :: a -> IO()
 ```
 
-Die Klasse "NumeralSystem" beschreibt Typen, welche ein Zahlensystem repräsentieren. Funktionen, die implementiert werden müssen, um zur Type Class zu gehören, sind eine Methode zum Konvertieren einer Int in das Zahlensystem sowie eine Methode, um Informationen zum Zahlensystem anzeigen zu lassen. 
+Die Type Class "NumeralSystem" gruppiert Methoden für Typen, welche ein Zahlensystem repräsentieren. Funktionen, die implementiert werden müssen, um zur Type Class zu gehören, sind eine Methode zum Konvertieren einer Int in das Zahlensystem sowie eine Methode, um Informationen zum Zahlensystem anzeigen zu lassen. 
 Um eine Implementierung einer Type Class zu erstellen, muss man eine Instanz für einen Datentypen anlegen. Dies erfolgt über das Keyword "instance", wie am Beispiel "Binary" gezeigt wird.
 
 ```haskell
@@ -104,6 +102,7 @@ instance Validator Binary where
 Die Type Class "Validator" hat die Klasse "NumeralSystem" als Superklasse. Dies wird durch den Constraint "NumeralSystem a =>" bei der Klassendefinition angegeben. Die Methode der Type Class überprüft, ob ein String den Regeln des Zahlensystems entspricht. Für "Binary" wird dementsprechend geprüft, ob der String nur aus 0 und 1 besteht. Dafür wird der String als Liste interpretiert. Dabei beschreibt "x" den Head und "xs" den Tail der Liste. Wenn "x" entweder 0 oder 1 entspricht, wird die Methode rekursiv mit dem Tail aufgerufen, bis die Liste entweder leer ist (=> String ist valide) oder "x" nicht 0 oder 1 entspricht (=> String ist nicht valide).
 Das vollständige Type Classes Beispiel kann im [Haskell Playground](https://play.haskell.org/saved/4OQ1vrIy) betrachtet und ausgeführt werden.
 
+<br><br>
 ## Wie unterscheiden sich Type Classes (Haskell) von Interfaces (Java)?
 
 Interfaces aus Java lassen sich in etwa mit Type Classes vergleichen. Eine Klasse in Java, welche die Implementierung eines Interfaces sein kann, entspricht dabei ebenfalls in etwa einer Instanz einer Type Class in Haskell. Es gibt jedoch wichtige Unterschiede, auf die im Folgenden eingegangen werden soll. 
@@ -192,20 +191,23 @@ public class ChaosNumber implements Numbers {
 ```
 Das Interface "Numbers" hat eine Methode "subtract", welche ein Numbers-Objekt als Parameter entgegen nimmt und ein Objekt zurückgibt. Theoretisch kann hier jedes beliebige Objekt eingesetzt werden, welches das Interface implementiert. Der Compiler weiß allerdings nicht, welche Implementierung genutzt wird und ob sie vom gleichen Typ ist. So kann der Fall eintreten, dass Objekte einer anderen Klasse an eine solche Methode übergeben werden. In der Theorie ist das möglich, da beide Klassen "Numbers" implementieren und als Übergabewert ein Objekt des Typs "Numbers" empfangen wird. Durch die Manipulation, in unserem Beispiel das Subtrahieren voneinander, müssen beide Objekte allerdings von der selben Klasse stammen. Dies kann jedoch nicht garantiert werden. Um dies zu verhindern und Typsicherheit zu garantieren, muss ein solches Objekt, welches den Interface-Typ hat, zuerst entsprechend gecastet werden, wie man ebenfalls im Beispiel sehen kann. In Haskell kommt es aufgrund des "static dispatch" nicht zu solchen Problemen. Der Compiler erkennt anhand des Typen die richtige Methode und garantiert dabei, dass die Parameter den gleichen Typen haben.
 
-Eine Gemeinsamkeit beider Features ist die Nutzung von Superklassen. Type Classes und Interfaces können durch eine andere Type Class oder Interface erweitert werden. Auch hierbei müssen dann alle Methoden implementiert werden. Dabei gibt es jedoch eine weitere Besonderheit in Java, wenn es um das nachträgliche Ergänzen eines Interfaces geht. In Java muss bei der Klassendefinition angegeben werden, ob und welches Interface implementiert wird und alle zu implementierenden Methoden müssen in der Klasse implementiert werden. Beim nachträglichen Hinzufügen eines weiteren Interfaces muss die ursprüngliche Klasse dabei bearbeitet und angepasst werden. Die ursprüngliche Version der Klasse wird dabei ersetzt. Bei Type Classes in Haskell ist es so, dass eine neue Instance zum Typ ergänzt werden kann, ohne die ursprüngliche Instance oder den Typen zu verändern.
+Eine Gemeinsamkeit beider Features ist die Nutzung von Superklassen. Type Classes und Interfaces können durch eine andere Type Class oder Interface erweitert werden. Auch hierbei müssen dann alle Methoden implementiert werden. Ebenfalls können beide Strukturen nachträglich zu einer Klasse oder einem Datentypen hinzugefügt werden. Dabei gibt es jedoch eine weitere Besonderheit in Java. In der Klassendefinition muss angegeben werden, ob und welches Interface implementiert wird und alle zu implementierenden Methoden müssen in der Klasse implementiert werden. Beim nachträglichen Hinzufügen eines weiteren Interfaces muss die ursprüngliche Klasse dabei bearbeitet und angepasst werden. Die ursprüngliche Version der Klasse wird dabei ersetzt. Bei Type Classes in Haskell wird eine separate neue Instance für jede Type Class angelegt, sodass die ursprüngliche Instance erhalten bleibt.
 
 ## Erkenntnisse (Zusammenfassung)
-- Haskell ist eine pure funktionale Programmiersprache ohne Objektorientierung.
-- Type Classes sind Gruppierungen von Typen mit gleichen Methoden.
-- Type Classes haben Ähnlichkeiten zu Interfaces von Java.
-- In Java werden Methoden und Daten in der gleichen Struktur definiert (Klasse), in Haskell in zwei unterschiedlichen (Data und Instance).
-- Die Instanz einer Klasse in Java ist ein Objekt, eine Instanz einer Type Class in Haskell ist ein Typ.
-- Die Aufgabe eines Interfaces in Java ist die Kommunikation mit anderen Klassen. Eine Type Class gruppiert Typen.
-- In Haskell wird die Entscheidung, welche Implementierung genutzt wird, während der Kompilierung getroffen (➝ "static dispatch"), während in Java die Entscheidung während der Laufzeit getroffen wird (➝"dynamic dispatch").  
-- Als Folge des "dynamic dispatch" in Kombination mit Subtyping kann unter Umständen keine Typsicherheit durch den Compiler garantiert werden.
-- Das nachträgliche Hinzufügen eines Interfaces zu einer Klasse in Java ersetzt die ursprüngliche Version, während in Haskell die ursprüngliche Version ergänzt wird.
+|                                    | Haskell                                                                                 | Java                                                                                     |
+| ---------------------------------- | --------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| Zweck                              | Gruppierung von Methoden für Datentypen                                                 | Kommunikation zwischen Klassen                                                           |
+| Zugriff auf Methoden               | Typ muss explizit übergeben werden, Aufruf erfolgt über den Typen                       | über "this" direkter Zugriff auf die Methoden (durch Objektorientierung)                 |
+| Definition von Methoden            | In der Instanz der Type Class für den Datentypen                                        | In der Klasse                                                                            |
+| Definition von Daten               | In der Definition des Datentyps                                                         | In der Klasse                                                                            |
+| Was beschrieben wird               | Type Class = Gruppe von Typen mit gleichen Methoden<br>Instance = Verhalten eines Typen | Interface = Aufbau und Verhalten eines Objekts<br>Klasse = Objekt                        |
+| Zeitpunkt der Methodenentscheidung | Kompilierung (static dispatch)                                                          | Laufzeit (dynamic dispatch)                                                              |
+| Entscheidungskriterium             | Typ                                                                                     | Objekt                                                                                   |
+| Typsicherheit                      | Durch Compiler garantiert                                                               | Kann nicht garantiert werden (möglich durch z.B. Casting)                                |
+| Superklassen                       | möglich                                                                                 | möglich                                                                                  |
+| Nachträgliche Erweiterung          | Ergänzung einer weiteren Instance ohne Veränderung der ursprünglichen Instanz           | Bearbeitung und Anpassung der ursprünglichen Klasse (Ersetzen der ursprünglichen Klasse) |
+<br><br>
 
-## Quellen
 [^goetheuniskript]: Schmidt-Schauß, M. (2023): _Einführung in die Funktionale Programmierung_, Vorlesungsskript. Goethe-Universität Frankfurt. [https://www2.ki.informatik.uni-frankfurt.de/lehre/WS2025/EFP/skript/skript.pdf](https://www2.ki.informatik.uni-frankfurt.de/lehre/WS2025/EFP/skript/skript.pdf) [abgerufen am: 05.06.2026].
 [^stackoverflow]: Stack Overflow (2025): _2025 Developer Survey: Most popular technologies (Language)_. [https://survey.stackoverflow.co/2025/technology#most-popular-technologies-language-language](https://survey.stackoverflow.co/2025/technology#most-popular-technologies-language-language) [abgerufen am: 05.06.2026].
 [^programmierparadigmen]:  Sulzmann, M. (2026): _Programming Paradigms - Haskell_, Vorlesungsmaterial. Hochschule Karlsruhe. https://sulzmann.github.io/ProgrammingParadigms/pp-haskell.html#(1) [abgerufen am 05.06.2026].
